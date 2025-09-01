@@ -6,7 +6,10 @@ const SEGMENT = preload("res://segment.tscn")
 
 @export var speed: float = 5.0
 @export var jump_velocity: float = 5.0
-@export var segment_separation: float = 0.25
+@export var segment_separation: float = 0.75
+
+func _ready() -> void:
+	set_collision_layer_value(1, 0)
 
 func _physics_process(delta: float) -> void:
 	var input_dir: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -34,6 +37,7 @@ func _physics_process(delta: float) -> void:
 func grow(amount: int=1) -> void:
 	for i in range(amount):
 		var segment_scene: Node = SEGMENT.instantiate()
+		segment_scene.set_collision_layer_value(1, 0)
 		body.add_child(segment_scene)
 
 func process_segments(delta: float) -> void:
@@ -45,7 +49,7 @@ func process_segments(delta: float) -> void:
 
 func process_segment(origen: CharacterBody3D, objetive: CharacterBody3D, delta: float) -> void:
 	var objetive_direction: Vector3 = origen.position.direction_to(objetive.position)
-	var target_position: Vector3 = objetive.position - objetive_direction - (segment_separation * objetive_direction)
+	var target_position: Vector3 = objetive.position - (segment_separation * objetive_direction)
 	origen.velocity = (target_position - origen.position)  / delta
 	origen.look_at(target_position)
 	origen.move_and_slide()
