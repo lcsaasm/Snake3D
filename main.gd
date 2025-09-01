@@ -16,7 +16,7 @@ func _ready() -> void:
 	camera_start_position = camera.position
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	camera_pivot.position = player.position
 
 func _unhandled_input(event: InputEvent) -> void:

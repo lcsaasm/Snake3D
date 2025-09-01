@@ -4,6 +4,7 @@ const SEGMENT = preload("res://segment.tscn")
 
 @onready var body: Node = $Body
 
+@export var controller: Controller
 @export var speed: float = 5.0
 @export var jump_velocity: float = 5.0
 @export var segment_separation: float = 0.75
@@ -12,14 +13,14 @@ func _ready() -> void:
 	set_collision_layer_value(1, 0)
 
 func _physics_process(delta: float) -> void:
-	var input_dir: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	var direction: Vector3 = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var input_data: InputPackage = controller.input_gather()
+	var direction: Vector3 = input_data.direction
 	
-	if Input.is_action_just_pressed("interact"):
+	if input_data.interact:
 		grow()
 	
 	if is_on_floor():
-		if Input.is_action_pressed("jump"):
+		if input_data.jump:
 			velocity.y = jump_velocity
 	else:
 		velocity += get_gravity() * delta
@@ -27,13 +28,14 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
+		look_at(position + Vector3(direction.x, 0, direction.z))
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
 		
 	move_and_slide()
 	process_segments(delta)
-	
+
 func grow(amount: int=1) -> void:
 	for i in range(amount):
 		var segment_scene: Node = SEGMENT.instantiate()
@@ -51,5 +53,6 @@ func process_segment(origen: CharacterBody3D, objetive: CharacterBody3D, delta: 
 	var objetive_direction: Vector3 = origen.position.direction_to(objetive.position)
 	var target_position: Vector3 = objetive.position - (segment_separation * objetive_direction)
 	origen.velocity = (target_position - origen.position)  / delta
-	origen.look_at(target_position)
+	if origen.position.distance_to(target_position) > 0.0025:
+		origen.look_at(target_position)
 	origen.move_and_slide()
