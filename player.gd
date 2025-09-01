@@ -9,8 +9,8 @@ const SEGMENT = preload("res://segment.tscn")
 @export var segment_separation: float = 0.25
 
 func _physics_process(delta: float) -> void:
-	var input_dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var input_dir: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var direction: Vector3 = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	if Input.is_action_just_pressed("interact"):
 		grow()
@@ -32,7 +32,6 @@ func _physics_process(delta: float) -> void:
 	process_segments(delta)
 	
 func grow(amount: int=1) -> void:
-	var segments: Array[Node] = body.get_children()
 	for i in range(amount):
 		var segment_scene: Node = SEGMENT.instantiate()
 		body.add_child(segment_scene)

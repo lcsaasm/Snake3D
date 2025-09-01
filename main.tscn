@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://dtwj8a5aeyx1u"]
+[gd_scene load_steps=3 format=3 uid="uid://dtwj8a5aeyx1u"]
 
+[ext_resource type="Script" uid="uid://c8r1xjfqtn8eq" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://dkbj5ri5eepx8" path="res://player.tscn" id="1_ig7tw"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_0xm2m")
 
 [node name="Structures" type="Node" parent="."]
 
@@ -13,9 +15,11 @@ size = Vector3(25, 1, 25)
 
 [node name="Player" parent="." instance=ExtResource("1_ig7tw")]
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 3, 4)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+[node name="OmniLight3D" type="OmniLight3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 omni_range = 25.0
+
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 7, 7)
