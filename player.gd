@@ -9,8 +9,13 @@ const SEGMENT = preload("res://segment.tscn")
 @export var jump_velocity: float = 5.0
 @export var segment_separation: float = 0.75
 
+var target_track: Node3D = Node3D.new()
+
 func _ready() -> void:
 	set_collision_layer_value(1, 0)
+	var segments: Array[Node] = body.get_children()
+	for segment in segments:
+		segment.set_collision_layer_value(1, 0)
 
 func _physics_process(delta: float) -> void:
 	var input_data: InputPackage = controller.input_gather()
@@ -45,13 +50,13 @@ func grow(amount: int=1) -> void:
 func process_segments(delta: float) -> void:
 	var segments: Array[Node] = body.get_children()
 	if len(segments) == 0: return
-	process_segment(segments[0], self, delta)
+	process_segment(segments[0], self, 0.25, delta)
 	for i in range(1, len(segments)):
-		process_segment(segments[i], segments[i - 1], delta)
+		process_segment(segments[i], segments[i - 1], segment_separation, delta)
 
-func process_segment(origen: CharacterBody3D, objetive: CharacterBody3D, delta: float) -> void:
+func process_segment(origen: CharacterBody3D, objetive: CharacterBody3D, separation: float, delta: float) -> void:
 	var objetive_direction: Vector3 = origen.position.direction_to(objetive.position)
-	var target_position: Vector3 = objetive.position - (segment_separation * objetive_direction)
+	var target_position: Vector3 = objetive.position - (separation * objetive_direction)
 	origen.velocity = (target_position - origen.position)  / delta
 	if origen.position.distance_to(target_position) > 0.0025:
 		origen.look_at(target_position)

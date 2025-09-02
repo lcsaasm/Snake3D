@@ -1,8 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://dtwj8a5aeyx1u"]
+[gd_scene load_steps=6 format=3 uid="uid://dtwj8a5aeyx1u"]
 
 [ext_resource type="Script" uid="uid://c8r1xjfqtn8eq" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://dkbj5ri5eepx8" path="res://player.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://ch77opu4v5oms" path="res://controller.tscn" id="2_h2yge"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1bvp3"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h2yge"]
+size = Vector3(0.15, 0.15, 0.15)
 
 [node name="Main" type="Node"]
 script = ExtResource("1_0xm2m")
@@ -19,11 +25,26 @@ size = Vector3(25, 1, 25)
 [node name="Player" parent="." node_paths=PackedStringArray("controller") instance=ExtResource("1_ig7tw")]
 controller = NodePath("../Controller")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-omni_range = 25.0
-
 [node name="CameraPivot" type="Node3D" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 7, 7)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2)
+shadow_enabled = true
+shadow_opacity = 0.25
+omni_range = 15.0
+
+[node name="MousePointer" type="Area3D" parent="."]
+collision_layer = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MousePointer"]
+mesh = SubResource("BoxMesh_1bvp3")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MousePointer"]
+shape = SubResource("BoxShape3D_h2yge")
+
+[connection signal="area_entered" from="MousePointer" to="." method="_on_mouse_pointer_area_entered"]
+[connection signal="mouse_exited" from="MousePointer" to="." method="_on_mouse_pointer_mouse_exited"]

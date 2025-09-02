@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://b70j0yf2nddvj"]
+
+[ext_resource type="Script" uid="uid://bi6gx018sv6hj" path="res://turret.gd" id="1_3oylf"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_8xk5y"]
+size = Vector3(1, 0.25, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3oylf"]
+size = Vector3(0.25, 0.15, 1)
+
+[node name="Turret" type="Node3D"]
+script = ExtResource("1_3oylf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_8xk5y")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+mesh = SubResource("BoxMesh_3oylf")
