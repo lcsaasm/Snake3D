@@ -12,6 +12,8 @@ func input_gather() -> InputPackage:
 	
 	if Input.is_action_pressed("interact"):
 		input_data.interact = true
+	if Input.is_action_pressed("shoot"):
+		input_data.shoot = true
 	if Input.is_action_pressed("jump"):
 		input_data.jump = true
 		

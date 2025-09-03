@@ -16,6 +16,7 @@ var camera_drag_flag: bool = false
 var mouse_ray_cast: RayCast3D = RayCast3D.new()
 
 var mouse_selection: Node3D
+var mouse_left_pressed: bool = false
 
 func _ready() -> void:
 	camera_start_position = camera.position
@@ -51,18 +52,24 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("scroll_down"):
 		camera.position = camera.position.move_toward(camera_start_position * camera_zoom_range_multiplier, camera_zoom_speed)
 	
-	if event.is_action_pressed("left_click"):
-		if mouse_selection != null:
-			if mouse_selection is Segment:
-				mouse_selection.bind_turret(mouse_pointer)
-				mouse_selection = null
-		camera_drag_flag = true
-	if event.is_action_released("left_click"):
-		camera_drag_flag = false
 	if event.is_action_pressed("right_click"):
 		if mouse_selection != null:
 			if mouse_selection is Segment:
 				mouse_selection.unbind_turret()
+		camera_drag_flag = true
+	elif event.is_action_released("right_click"):
+		camera_drag_flag = false
+		
+	if event.is_action_pressed("left_click"):
+		mouse_left_pressed = true
+	elif event.is_action_released("left_click"):
+		mouse_left_pressed = false
+		
+	if mouse_left_pressed:
+		if mouse_selection != null:
+			if mouse_selection is Segment:
+				mouse_selection.bind_turret(mouse_pointer)
+				mouse_selection = null
 
 func _on_mouse_pointer_area_entered(area: Area3D) -> void:
 	if area.owner != null:

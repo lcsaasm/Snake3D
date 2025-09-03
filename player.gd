@@ -23,12 +23,15 @@ func _physics_process(delta: float) -> void:
 	
 	if input_data.interact:
 		grow()
-	
+	if input_data.shoot:
+		shoot()
+
 	if is_on_floor():
+		velocity.y = 0
 		if input_data.jump:
 			velocity.y = jump_velocity
 	else:
-		velocity += get_gravity() * delta
+		velocity.y -= 9.8 * delta
 	
 	if direction:
 		velocity.x = direction.x * speed
@@ -37,9 +40,14 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
-		
 	move_and_slide()
 	process_segments(delta)
+	
+func shoot() -> void:
+	var segments: Array[Node] = body.get_children()
+	for segment in segments:
+		if segment.attachment != null and segment.attachment is Turret:
+			segment.attachment.shoot()
 
 func grow(amount: int=1) -> void:
 	for i in range(amount):

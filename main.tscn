@@ -23,6 +23,10 @@ size = Vector3(25, 1, 25)
 [node name="Controller" parent="." instance=ExtResource("2_h2yge")]
 
 [node name="Player" parent="." node_paths=PackedStringArray("controller") instance=ExtResource("1_ig7tw")]
+wall_min_slide_angle = 3.14159
+floor_block_on_wall = false
+floor_max_angle = 3.14159
+floor_snap_length = 0.25
 controller = NodePath("../Controller")
 
 [node name="CameraPivot" type="Node3D" parent="."]
