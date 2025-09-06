@@ -5,7 +5,7 @@ const SEGMENT = preload("res://segment.tscn")
 @onready var body: Node = $Body
 
 @export var controller: Controller
-@export var speed: float = 5.0
+@export var speed: float = 30.0
 @export var jump_velocity: float = 5.0
 @export var segment_separation: float = 0.75
 
@@ -49,7 +49,7 @@ func shoot() -> void:
 	var segments: Array[Node] = body.get_children()
 	for segment in segments:
 		if segment.attachment != null and segment.attachment is Turret:
-			segment.attachment.shoot()
+			segment.attachment.shoot(velocity)
 
 func grow(amount: int=1) -> void:
 	for i in range(amount):

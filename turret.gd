@@ -4,6 +4,7 @@ class_name Turret
 const PROJECTILE = preload("res://projectile.tscn")
 
 @onready var timer: Timer = $Timer
+@onready var projectile_spawn: Marker3D = $ProjectileSpawn
 
 @export var target: Node3D
 @export var delay: float = 0.1
@@ -13,17 +14,17 @@ func _ready() -> void:
 	if target == null:
 		print_debug("Error: Turret target not initialized")
 		
-func shoot() -> void:
+func shoot(start_velocity: Vector3) -> void:
 	if timer.time_left != 0:
 		return
 		
 	timer.start(delay)
 	var projectile_scene: Node = PROJECTILE.instantiate()
 	get_tree().get_root().add_child(projectile_scene)
-	projectile_scene.global_position = global_position
+	projectile_scene.global_position = projectile_spawn.global_position + start_velocity.normalized() / 2
+	projectile_scene.velocity = start_velocity
 	projectile_scene.look_at(target.global_position)
 	
 func _physics_process(delta: float) -> void:
 	if global_position.distance_to(target.global_position) > 5:
 		global_transform = global_transform.interpolate_with(global_transform.looking_at(target.global_position), delta * 7.5)
-	#look_at(target.global_position)

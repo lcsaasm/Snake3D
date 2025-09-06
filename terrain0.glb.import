@@ -3,18 +3,18 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://c8cx4xjwluvxw"
-path="res://.godot/imported/RockC.glb-5881ee1ff2072066a3de122ce4239bee.scn"
+uid="uid://bc2pc2x8rtfpn"
+path="res://.godot/imported/terrain0.glb-6e3e93448843bcc3678a24ab4c943bd4.scn"
 
 [deps]
 
-source_file="res://demo/assets/models/RockC.glb"
-dest_files=["res://.godot/imported/RockC.glb-5881ee1ff2072066a3de122ce4239bee.scn"]
+source_file="res://terrain0.glb"
+dest_files=["res://.godot/imported/terrain0.glb-6e3e93448843bcc3678a24ab4c943bd4.scn"]
 
 [params]
 
-nodes/root_type="StaticBody3D"
-nodes/root_name="Scene Root"
+nodes/root_type=""
+nodes/root_name=""
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
 nodes/import_as_skeleton_bones=false
@@ -33,12 +33,11 @@ animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
-"materials": {
-"@MATERIAL:0": {
-"use_external/enabled": true,
-"use_external/path": "res://demo/assets/materials/M_rock30.tres"
+"nodes": {
+"PATH:Landscape": {
+"generate/physics": true
 }
 }
 }
-gltf/naming_version=0
+gltf/naming_version=1
 gltf/embedded_image_handling=1
