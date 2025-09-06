@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bocicdrskdllk"]
+[gd_scene load_steps=8 format=3 uid="uid://bocicdrskdllk"]
 
 [ext_resource type="Script" uid="uid://bta3873a02pm3" path="res://projectile.gd" id="1_a85iw"]
 [ext_resource type="AudioStream" uid="uid://cts5kxllbney4" path="res://effect4.ogg" id="2_dgwo2"]
@@ -15,6 +15,17 @@ height = 0.2
 specular_mode = 2
 albedo_color = Color(0, 0, 0, 1)
 metallic_specular = 0.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_dgwo2"]
+properties/0/path = NodePath("ExplosionArea:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("ExplosionArea:scale")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:position")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [node name="Projectile" type="Node3D"]
 script = ExtResource("1_a85iw")
@@ -33,3 +44,6 @@ volume_db = -16.0
 [node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_dgwo2")
 volume_db = -16.0
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_dgwo2")
