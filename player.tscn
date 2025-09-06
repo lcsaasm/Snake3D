@@ -19,3 +19,11 @@ mesh = SubResource("BoxMesh_4flbx")
 [node name="Body" type="Node" parent="."]
 
 [node name="Segment" parent="Body" instance=ExtResource("1_4flbx")]
+
+[node name="Segment2" parent="Body" instance=ExtResource("1_4flbx")]
+
+[node name="Segment3" parent="Body" instance=ExtResource("1_4flbx")]
+
+[node name="Segment4" parent="Body" instance=ExtResource("1_4flbx")]
+
+[node name="Segment5" parent="Body" instance=ExtResource("1_4flbx")]

@@ -12,9 +12,11 @@ const SEGMENT = preload("res://segment.tscn")
 var target_track: Node3D = Node3D.new()
 
 func _ready() -> void:
+	hide()
 	set_collision_layer_value(1, 0)
 	var segments: Array[Node] = body.get_children()
 	for segment in segments:
+		segment.position = position
 		segment.set_collision_layer_value(1, 0)
 
 func _physics_process(delta: float) -> void:
@@ -52,6 +54,7 @@ func shoot() -> void:
 func grow(amount: int=1) -> void:
 	for i in range(amount):
 		var segment_scene: Node = SEGMENT.instantiate()
+		segment_scene.position = position
 		segment_scene.set_collision_layer_value(1, 0)
 		body.add_child(segment_scene)
 

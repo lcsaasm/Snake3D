@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bocicdrskdllk"]
+[gd_scene load_steps=7 format=3 uid="uid://bocicdrskdllk"]
 
 [ext_resource type="Script" uid="uid://bta3873a02pm3" path="res://projectile.gd" id="1_a85iw"]
+[ext_resource type="AudioStream" uid="uid://cts5kxllbney4" path="res://effect4.ogg" id="2_dgwo2"]
+[ext_resource type="AudioStream" uid="uid://bnkcl2kokryv7" path="res://effect.ogg" id="2_qxf0c"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_akgne"]
 size = Vector3(0.15, 0.15, 0.15)
@@ -8,6 +10,11 @@ size = Vector3(0.15, 0.15, 0.15)
 [sub_resource type="SphereMesh" id="SphereMesh_a85iw"]
 radius = 0.1
 height = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dgwo2"]
+specular_mode = 2
+albedo_color = Color(0, 0, 0, 1)
+metallic_specular = 0.0
 
 [node name="Projectile" type="Node3D"]
 script = ExtResource("1_a85iw")
@@ -17,3 +24,12 @@ mesh = SubResource("BoxMesh_akgne")
 
 [node name="ExplosionArea" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_a85iw")
+surface_material_override/0 = SubResource("StandardMaterial3D_dgwo2")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_qxf0c")
+volume_db = -16.0
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_dgwo2")
+volume_db = -16.0

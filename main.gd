@@ -27,16 +27,20 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	camera_pivot.position = player.position
-	omni_light.position = omni_light.position.move_toward(player.position + -player.basis.z + Vector3.UP, 0.075)
+	omni_light.position = omni_light.position.move_toward(player.position + -player.basis.z + Vector3.UP, 1)
 	
+	var mouse_position: Vector2
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
-		var mouse_position: Vector2 = get_viewport().get_mouse_position()
-		mouse_ray_cast.position = camera.project_ray_origin(mouse_position)
-		mouse_ray_cast.target_position = camera.project_ray_normal(mouse_position) * 25
-		if mouse_ray_cast.is_colliding():
-			mouse_pointer.position = mouse_ray_cast.get_collision_point()
-		else:
-			mouse_pointer.position = mouse_ray_cast.position + mouse_ray_cast.target_position
+		mouse_position = get_viewport().get_mouse_position()
+	else:
+		mouse_position = get_viewport().size / 2 + Vector2i(0, -150)
+		
+	mouse_ray_cast.position = camera.project_ray_origin(mouse_position)
+	mouse_ray_cast.target_position = camera.project_ray_normal(mouse_position) * 25
+	if mouse_ray_cast.is_colliding():
+		mouse_pointer.position = mouse_pointer.position.move_toward(mouse_ray_cast.get_collision_point(), 0.5)
+	else:
+		mouse_pointer.position = mouse_pointer.position.move_toward(mouse_ray_cast.position + mouse_ray_cast.target_position, 0.5)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:

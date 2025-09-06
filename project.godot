@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Snake3D"
-run/main_scene="uid://dtwj8a5aeyx1u"
+run/main_scene="uid://bw1pphjciuu5a"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/terrain_3d/plugin.cfg")
 
 [input]
 
