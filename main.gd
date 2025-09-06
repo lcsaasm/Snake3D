@@ -19,7 +19,7 @@ func _on_join_pressed() -> void:
 	canvas_layer.hide()
 
 func add_player(id:int = 1) -> void:
-	var player: CharacterBody3D = player_scene.instantiate()
+	var player: Node = player_scene.instantiate()
 	player.set_multiplayer_authority(id)
 	player.name = str(id)
 	call_deferred("add_child", player)

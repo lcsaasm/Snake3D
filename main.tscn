@@ -6,8 +6,7 @@
 
 [node name="Main" type="Node"]
 script = ExtResource("1_h2yge")
-
-[node name="PlayerMP" parent="." instance=ExtResource("1_0xm2m")]
+player_scene = ExtResource("1_0xm2m")
 
 [node name="terrain0" parent="." instance=ExtResource("3_lquwl")]
 transform = Transform3D(500, 0, 0, 0, 500, 0, 0, 0, 500, 0, -85, 0)
