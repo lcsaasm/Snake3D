@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://vvqqc4vv7u5t"]
+
+[ext_resource type="PackedScene" uid="uid://dkbj5ri5eepx8" path="res://player.tscn" id="1_lp2yf"]
+[ext_resource type="Script" uid="uid://c8r1xjfqtn8eq" path="res://player_mp.gd" id="1_wonc4"]
+[ext_resource type="PackedScene" uid="uid://ch77opu4v5oms" path="res://controller.tscn" id="2_e0b0c"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_r5edq"]
+size = Vector3(0.15, 0.15, 0.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lfygm"]
+size = Vector3(0.15, 0.15, 0.15)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wonc4"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="PlayerMP" type="Node3D"]
+script = ExtResource("1_wonc4")
+
+[node name="Player" parent="." node_paths=PackedStringArray("controller") instance=ExtResource("1_lp2yf")]
+top_level = true
+controller = NodePath("../Controller")
+
+[node name="Controller" parent="." instance=ExtResource("2_e0b0c")]
+
+[node name="CameraPivot" type="Node3D" parent="."]
+top_level = true
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 7, 7)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2)
+top_level = true
+light_energy = 0.1
+shadow_enabled = true
+shadow_opacity = 0.25
+omni_range = 15.0
+
+[node name="MousePointer" type="Area3D" parent="."]
+top_level = true
+collision_layer = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MousePointer"]
+mesh = SubResource("BoxMesh_r5edq")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MousePointer"]
+shape = SubResource("BoxShape3D_lfygm")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_wonc4")
+
+[connection signal="area_entered" from="MousePointer" to="." method="_on_mouse_pointer_area_entered"]
+[connection signal="area_exited" from="MousePointer" to="." method="_on_mouse_pointer_mouse_exited"]

@@ -1,59 +1,43 @@
-[gd_scene load_steps=7 format=3 uid="uid://bw1pphjciuu5a"]
+[gd_scene load_steps=4 format=3 uid="uid://bw1pphjciuu5a"]
 
-[ext_resource type="Script" uid="uid://c8r1xjfqtn8eq" path="res://main.gd" id="1_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://dkbj5ri5eepx8" path="res://player.tscn" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://ch77opu4v5oms" path="res://controller.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://vvqqc4vv7u5t" path="res://player_mp.tscn" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://bb7rbdlglxy71" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://bc2pc2x8rtfpn" path="res://terrain0.glb" id="3_lquwl"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_1bvp3"]
-size = Vector3(0.15, 0.15, 0.15)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_h2yge"]
-size = Vector3(0.15, 0.15, 0.15)
-
 [node name="Main" type="Node"]
-script = ExtResource("1_0xm2m")
+script = ExtResource("1_h2yge")
+
+[node name="PlayerMP" parent="." instance=ExtResource("1_0xm2m")]
 
 [node name="terrain0" parent="." instance=ExtResource("3_lquwl")]
 transform = Transform3D(500, 0, 0, 0, 500, 0, 0, 0, 500, 0, -85, 0)
 
 [node name="Structures" type="Node" parent="."]
 
-[node name="Controller" parent="." instance=ExtResource("2_h2yge")]
-
-[node name="Player" parent="." node_paths=PackedStringArray("controller") instance=ExtResource("1_ig7tw")]
-wall_min_slide_angle = 3.14159
-floor_block_on_wall = false
-floor_max_angle = 3.14159
-floor_snap_length = 0.25
-controller = NodePath("../Controller")
-
-[node name="CameraPivot" type="Node3D" parent="."]
-
-[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 7, 7)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2)
-light_energy = 0.1
-shadow_enabled = true
-shadow_opacity = 0.25
-omni_range = 15.0
-
-[node name="MousePointer" type="Area3D" parent="."]
-collision_layer = 0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MousePointer"]
-mesh = SubResource("BoxMesh_1bvp3")
-skeleton = NodePath("../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MousePointer"]
-shape = SubResource("BoxShape3D_h2yge")
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.951894, 0.306426, 0, -0.306426, 0.951894, 0, 0, 0)
 light_energy = 0.05
 shadow_enabled = true
 
-[connection signal="area_entered" from="MousePointer" to="." method="_on_mouse_pointer_area_entered"]
-[connection signal="mouse_exited" from="MousePointer" to="." method="_on_mouse_pointer_mouse_exited"]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Host" type="Button" parent="CanvasLayer"]
+offset_left = 29.0
+offset_top = 31.0
+offset_right = 93.0
+offset_bottom = 78.0
+text = "Host"
+
+[node name="Join" type="Button" parent="CanvasLayer"]
+offset_left = 111.0
+offset_top = 31.0
+offset_right = 176.0
+offset_bottom = 78.0
+text = "Join"
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://vvqqc4vv7u5t")
+spawn_path = NodePath("..")
+
+[connection signal="pressed" from="CanvasLayer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="CanvasLayer/Join" to="." method="_on_join_pressed"]

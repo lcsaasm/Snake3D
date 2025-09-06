@@ -5,6 +5,9 @@ class_name Controller
 @onready var camera_3d: Camera3D = $"../CameraPivot/Camera3D"
 
 func input_gather() -> InputPackage:
+	if not is_multiplayer_authority():
+		return
+		
 	var input_data: InputPackage = InputPackage.new()
 	var input_direction: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	
