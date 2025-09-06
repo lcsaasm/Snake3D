@@ -6,7 +6,7 @@ class_name Controller
 
 func input_gather() -> InputPackage:
 	if not is_multiplayer_authority():
-		return
+		return InputPackage.new()
 		
 	var input_data: InputPackage = InputPackage.new()
 	var input_direction: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")

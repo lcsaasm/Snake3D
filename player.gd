@@ -22,7 +22,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var input_data: InputPackage = controller.input_gather()
 	var direction: Vector3 = input_data.direction
-	
+
 	if input_data.interact:
 		grow()
 	if input_data.shoot:
